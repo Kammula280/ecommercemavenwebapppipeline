@@ -44,7 +44,7 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 <hr>
 <hr>
 <p align=center>Ecommerce solution expert in slickcity</p>
-<p align=center><small>Copyrights 2019 by <a href="http:/égoogle.com">Mithun Technologies</a> </small></p>
+<p align=center><small>Copyrights 2019 by <a href="http:/égoogle.com">no copy rights</a> </small></p>
 
 </body>
 </html>
