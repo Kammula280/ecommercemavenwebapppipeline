@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>MithunTechnologies- Home Page</title>
-<link href="images/mithunlogo.jpg" rel="icon">
+<title>My- Home Page</title>
+<link href="images/ecomlogo.jpg" rel="icon">
 </head>
 </head>
 <body>
@@ -44,7 +44,7 @@ out.println("Server Host Name :: "+inetAddress.getHostName());
 <hr>
 <hr>
 <p align=center>Ecommerce solution expert in slickcity</p>
-<p align=center><small>Copyrights by <a href="http:/égoogle.com">no copy rights</a> </small></p>
+<p align=center><small>Copyrights 2019 by <a href="http:/égoogle.com">no copy rights</a> </small></p>
 
 </body>
 </html>
