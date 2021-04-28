@@ -5,9 +5,9 @@
 	<groupId>com.mt</groupId>
 	<artifactId>maven-web-application</artifactId>
 	<packaging>war</packaging>
-	<version>8.0.4</version>
+	<version>0.0.2-snapshot</version>
 	
-	<name>maven-web-appli</name>
+	<name>maven-web-application</name>
 
 	<description>Maven Web Project for Java Project</description>
 
