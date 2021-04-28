@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<version>8.0.3</version>
 	
-	<name>maven-web-application</name>
+	<name>maven-web-appli</name>
 
 	<description>Maven Web Project for Java Project</description>
 
