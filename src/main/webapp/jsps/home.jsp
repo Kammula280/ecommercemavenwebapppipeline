@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ecommerce- Home Page</title>
+<title>ecommerce Home Page</title>
 <link href="images/ecomlogo.png" rel="icon">
 </head>
 </head>
