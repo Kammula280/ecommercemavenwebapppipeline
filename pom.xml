@@ -106,7 +106,7 @@
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>my nexus snapshot repository</name>
-	      <url>http://18.116.80.95:808/repository/flipkart-snapshot/</url>
+	      <url>http://18.116.80.95:8081/repository/flipkart-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
