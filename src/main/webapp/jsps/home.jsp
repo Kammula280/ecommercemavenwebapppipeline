@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>My Home Page</title>
-<link href="images/ecomlogo.jpg" rel="icon">
+<title>ecommerce Home Page</title>
+<link href="images/ecomlogo.png" rel="icon">
 </head>
 </head>
 <body>
 <h1 align="center">Welcome to E commerce java web application.</h1>
-<h1 align="center"> This is the java application to be used for demo purposes while practising devops methodlogies. The build tool used is maven, application is run in tomcat server</h1>
+<h1 align="center"> This is the java application to be used for demo purposes while practising devops methodologies. The build tool used is maven, application is running in tomcat server</h1>
 <hr>
 <br>
 	<h1><h3> Server Side IP Address </h3><br>
