@@ -32,7 +32,7 @@ node ('master')
         }
     stage ('send email')
     {
-        mail bcc: '', body: 'Please check Jenkins GUI to view the status', cc: '', from: '', replyTo: '', subject: 'Build is Finished', to: 'kammularamgopal@gmail.com'
+        mail bcc: '', body: 'Please check the Jenkins GUI to view the status', cc: '', from: '', replyTo: '', subject: 'Build is Finished', to: 'kammularamgopal@gmail.com'
     }
     }
 }
