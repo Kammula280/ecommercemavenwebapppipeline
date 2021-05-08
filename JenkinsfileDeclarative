@@ -11,20 +11,13 @@ pipeline{
     stages{
         
         stage('Checkout code and job details'){
-            parallel(
+            
 
             Checkoutcode:{
                 git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
-            },
-            jobdetails:{
-                        echo "Jenkins Job Number ${env.BUILD_NUMBER}"
-                        echo "Jenkins Node Name ${env.NODE_NAME}"
-                        echo "Jenkins Home ${env.JENKINS_HOME}"
-                        echo "Jenkins URL ${env.JENKINS_URL}"
-                        echo "JOB Name ${env.JOB_NAME}"
             }
         
-            )
+       
         }
         stage('Build and test'){
             steps{
