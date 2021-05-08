@@ -28,7 +28,7 @@ pipeline{
         parallel(
         "displayenv":
         {
-        echo "my env var ${BRANCH_NAME}"}},
+        echo "my env var ${BRANCH_NAME}"},
         "Checkout code and job details":{
                 git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'}
            )
