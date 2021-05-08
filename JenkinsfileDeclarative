@@ -35,17 +35,13 @@ pipeline{
            }
         }
      
-        stage('build and skip test 1'){
+        stage('build artifact'){
         
-    when {
-        expression{
-            params.branch anyOf 'dev'
-        }
-        steps{
-            sh 'mvn clean package -DMaventestskip=true'
     
-}
-}
+        steps{
+            sh 'mvn clean package'
+    }
+
 }
         stage ('Execute Sonarqube report'){
             steps{
@@ -60,7 +56,7 @@ pipeline{
         stage ('Deploy to APP server'){
             steps{
                 sshagent(['d20ea64a-8685-4263-a0ac-28c646ec6f51']) {
-                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.20:/opt/apache-tomcat-9.0.45/webapps"
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.206:/opt/apache-tomcat-9.0.45/webapps"
                     }
             }
         }
