@@ -3,7 +3,7 @@ pipeline{
         label 'master'
     }
     environment{
-    BRANCH_NAME ='master'
+    BRANCH_NAME ="${params.branch}"
     }
     parameters{
     string (name : 'version',defaultValue: '1.0', description : '')
