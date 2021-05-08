@@ -7,17 +7,9 @@ pipeline{
         maven 'maven3.6.3'
     }
     
-    options{
-         timestamps()
-         timeout(time:60,unit:'MINUTES')
-        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
-        disableConcurrentBuilds()
-     }
+   
     stages{
-        stage('Display environment name'){
-        steps{
-                echo "Building in ${env.BRANCH_NAME}"
-        }
+        
         stage('Checkout code and job details'){
             parallel(
 
