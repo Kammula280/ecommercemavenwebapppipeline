@@ -23,7 +23,9 @@ pipeline{
     
    
     stages{
-        
+        stage ('displayenvs'){
+        steps{
+        echo "my env var ${BRANCH_NAME}"}}
         stage('Checkout code and job details'){
         steps{
                 git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
