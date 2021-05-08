@@ -36,11 +36,12 @@ pipeline{
         }
      
         stage('build and skip test 1'){
-        steps{
+        
     when {
         expression{
             params.branch anyOf 'dev'
         }
+        steps{
             sh 'mvn clean package -DMaventestskip=true'
     
 }
