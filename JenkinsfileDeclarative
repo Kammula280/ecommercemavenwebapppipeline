@@ -6,9 +6,6 @@ pipeline{
     tools{
         maven 'maven3.6.3'
     }
-    parameters{
-    string (Name:'branch', choices: ['dev','master','test']),description: '')
-    }
     
     options{
          timestamps()
@@ -25,7 +22,7 @@ pipeline{
             parallel(
 
             Checkoutcode:{
-                git branch: '${params.Environment}', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
+                git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
             },
             jobdetails:{
                         echo "Jenkins Job Number ${env.BUILD_NUMBER}"
