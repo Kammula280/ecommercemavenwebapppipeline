@@ -40,6 +40,10 @@ pipeline{
         }
        
         post{
+        always{
+        mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Success ', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+            
+        }
             success{
                 mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Success ', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
             }
