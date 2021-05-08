@@ -2,7 +2,12 @@ pipeline{
     agent{
         label 'master'
     }
-
+ options{
+         timestamps()
+         timeout(time:60,unit:'MINUTES')
+        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
+        disableConcurrentBuilds()
+     }
     tools{
         maven 'maven3.6.3'
     }
