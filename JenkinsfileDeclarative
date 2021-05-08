@@ -71,7 +71,7 @@ pipeline{
             cleanWs()
             }
             failure{
-                mail bcc: '', body: 'Your Jenkins Build is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
+                mail bcc: '', body: 'Your Jenkins B uild is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
             cleanWs()
             }
         }
