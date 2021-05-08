@@ -35,11 +35,17 @@ pipeline{
            }
         }
      
-        stage('Build and test'){
-            steps{
-                sh 'mvn clean package'
-            }
+        stage('build and skip test 1'){
+    when {
+        expression{
+            params.branch ==dev || env.BRANCH_NAME==master
         }
+        steps{
+            sh 'mvn clean package -DMaventestskip=true'
+        }
+    
+    }
+}
         stage ('Execute Sonarqube report'){
             steps{
                 sh 'mvn sonar:sonar'
