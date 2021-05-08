@@ -1,53 +1,57 @@
 pipeline{
     agent{
-        label master
+        label 'master'
     }
-    App_Version = ${params.Version}
-    Branch_Name = ${params.Environment}
+    environment{
+    BRANCH_NAME ="${params.branch}"
+    }
+    parameters{
+    string (name : 'version',defaultValue: '1.0', description : '')
+    choice (name:'branch', choices: ['dev','master','test'],description: '')
+    }
+ options{
+         timestamps()
+         timeout(time:60,unit:'MINUTES')
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5'))
+        disableConcurrentBuilds()
+     }
+     triggers{
+      pollSCM('* * * * *')}
     tools{
         maven 'maven3.6.3'
     }
-    properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
     
-    options{
-        timestamps()
-        timeout(time: 60, unit: 'SECONDS')
-        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
-    }
+   
     stages{
-        stage('Display environment name'){
+        stage ('displayenvsand checkout'){
         steps{
-                echo "Building in ${Branch_Name}"
+        parallel(
+        "displayenv":
+        {
+        echo "my env var ${BRANCH_NAME}"},
+        "Checkout code and job details":{
+                git branch: "${params.branch}", credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'}
+           )
+           }
         }
-        stage('Checkout code and job details'){
-            parallel(
+     
+        stage('build artifact'){
+        
+    
+        steps{
+            sh 'mvn clean package'
+    }
 
-            Checkoutcode:{
-                git branch: '${params.Environment}', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
-            },
-            jobdetails:{
-                        echo "Jenkins Job Number ${env.BUILD_NUMBER}"
-                        echo "Jenkins Node Name ${env.NODE_NAME}"
-                        echo "Jenkins Home ${env.JENKINS_HOME}"
-                        echo "Jenkins URL ${env.JENKINS_URL}"
-                        echo "JOB Name ${env.JOB_NAME}"
-            }
-            )
-        stage('Build and test'){
-            script {
-                     if ("${Branch_Name}")=='dev'){
-                         sh 'mvn clean package'
-                     } if ("${Branch_Name}")=='master'){
-                         sh 'mvn clean package -Dmaven.test.skip=true'
-                     }
-        }
+}
         stage ('Execute Sonarqube report'){
             steps{
                 sh 'mvn sonar:sonar'
             }
+            }
         stage('upload artifact'){
             steps {
                 sh 'mvn deploy'
+            }
             }
         stage ('Deploy to APP server'){
             steps{
@@ -56,18 +60,21 @@ pipeline{
                     }
             }
         }
+    }
         post{
+        always{
+                mail bcc: '', body: 'Your Jenkins Build is always', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+            cleanWs()
+            }
             success{
-                mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Success ', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+                mail bcc: '', body: 'Your Jenkins Build is Success', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+            cleanWs()
             }
             failure{
-                mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
-                cleanWs
+                mail bcc: '', body: 'Your Jenkins Build is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
+            cleanWs()
             }
         }
-        }
-        }
-        }
-        }
-    }
+       
+               
 }
