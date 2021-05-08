@@ -11,12 +11,13 @@ pipeline{
     stages{
         
         stage('Checkout code and job details'){
+        steps{
             
 
             Checkoutcode:{
                 git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
             }
-        
+        }
        
         }
         stage('Build and test'){
