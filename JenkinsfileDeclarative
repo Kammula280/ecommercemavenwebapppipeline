@@ -3,8 +3,8 @@ pipeline{
         label 'master'
     }
     parameters{
-    string (Name : 'version',defaultvalue: '1.0', description : '')
-    string (Name:'branch', choices: (['dev','master','test']),description: '')
+    string (name : 'version',defaultValue: '1.0', description : '')
+    choice (name:'branch', choices: (['dev','master','test']),description: '')
     }
  options{
          timestamps()
