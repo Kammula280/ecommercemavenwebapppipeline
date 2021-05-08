@@ -2,8 +2,7 @@ pipeline{
     agent{
         label master
     }
-    App_Version = ${params.Version}
-    Branch_Name = ${params.Environment}
+
     tools{
         maven 'maven3.6.3'
     }
@@ -20,7 +19,7 @@ pipeline{
     stages{
         stage('Display environment name'){
         steps{
-                echo "Building in ${Branch_Name}"
+                echo "Building in ${env.BRANCH_NAME}"
         }
         stage('Checkout code and job details'){
             parallel(
