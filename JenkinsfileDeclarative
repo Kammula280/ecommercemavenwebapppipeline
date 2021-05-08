@@ -7,13 +7,16 @@ pipeline{
     tools{
         maven 'maven3.6.3'
     }
-    properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
+    parameters{
+        properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')])])
+    }
     
     options{
-        timestamps()
-        timeout(time: 60, unit: 'SECONDS')
-        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
-    }
+         timestamps()
+         timeout(time:60,unit:'MINUTES')
+        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([pollSCM('* * * * *')])])
+        disableConcurrentBuilds()
+     }
     stages{
         stage('Display environment name'){
         steps{
@@ -34,8 +37,9 @@ pipeline{
             }
             )
         stage('Build and test'){
-          steps{
-          sh 'mvn clean package'}
+            steps{
+                sh 'mvn clean package'
+            }
         }
         stage ('Execute Sonarqube report'){
             steps{
