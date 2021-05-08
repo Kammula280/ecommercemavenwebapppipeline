@@ -23,7 +23,9 @@ pipeline{
                         echo "Jenkins URL ${env.JENKINS_URL}"
                         echo "JOB Name ${env.JOB_NAME}"
             }
+        
             )
+        }
         stage('Build and test'){
             steps{
                 sh 'mvn clean package'
@@ -53,7 +55,5 @@ pipeline{
                 cleanWs
             }
         }
-
-}
-}
+    }
 }
