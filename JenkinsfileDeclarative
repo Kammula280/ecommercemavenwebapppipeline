@@ -45,7 +45,7 @@ pipeline{
         stage ('Deploy to APP server'){
             steps{
                 sshagent(['d20ea64a-8685-4263-a0ac-28c646ec6f51']) {
-                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.206:/opt/apache-tomcat-9.0.45/webapps"
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.20:/opt/apache-tomcat-9.0.45/webapps"
                     }
             }
         }
@@ -57,7 +57,7 @@ pipeline{
             }
             failure{
                 mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
-                
+            cleanWs()
             }
         }
        
