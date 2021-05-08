@@ -5,7 +5,7 @@ pipeline{
     App_Version = ${params.Version}
     Branch_Name = ${params.Environment}
     tools{
-        maven 'maven3.6.3'
+        maven maven3.6.3
     }
     properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
     
@@ -35,9 +35,9 @@ pipeline{
             )
         stage('Build and test'){
             script {
-                     if ("${params.Environment}")=='dev'){
+                     if ("${Branch_Name}")=='dev'){
                          sh 'mvn clean package'
-                     } if ("${params.Environment}")=='master'){
+                     } if ("${Branch_Name}")=='master'){
                          sh 'mvn clean package -Dmaven.test.skip=true'
                      }
         }
