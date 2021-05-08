@@ -57,7 +57,7 @@ pipeline{
     }
         post{
             success{
-                mail bcc: '', body: 'echo "my env var ${BRANCH_NAME}" Your Jenkins Build "${env.BUILD_NUMBER}" is Success ', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+                mail bcc: '', body: 'echo "my env var ${BRANCH_NAME}"', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
             cleanWs()
             }
             failure{
