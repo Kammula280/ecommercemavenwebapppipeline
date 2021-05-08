@@ -44,7 +44,7 @@ pipeline{
             sh 'mvn clean package -DMaventestskip=true'
     
 }
-]
+}
 }
         stage ('Execute Sonarqube report'){
             steps{
