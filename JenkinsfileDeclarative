@@ -5,7 +5,7 @@ pipeline{
     App_Version = ${params.Version}
     Branch_Name = ${params.Environment}
     tools{
-        maven maven3.6.3
+        maven 'maven3.6.3'
     }
     properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
     
