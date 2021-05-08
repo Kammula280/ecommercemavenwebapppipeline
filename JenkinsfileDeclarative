@@ -2,7 +2,9 @@ pipeline{
     agent{
         label 'master'
     }
+    environment{
     BRANCH_NAME =${params.branch}
+    }
     parameters{
     string (name : 'version',defaultValue: '1.0', description : '')
     choice (name:'branch', choices: ['dev','master','test'],description: '')
@@ -46,7 +48,7 @@ pipeline{
         stage ('Deploy to APP server'){
             steps{
                 sshagent(['d20ea64a-8685-4263-a0ac-28c646ec6f51']) {
-                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.20:/opt/apache-tomcat-9.0.45/webapps"
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.206:/opt/apache-tomcat-9.0.45/webapps"
                     }
             }
         }
