@@ -34,12 +34,8 @@ pipeline{
             }
             )
         stage('Build and test'){
-            script {
-                     if (${Branch_Name})=='dev'){
-                         sh 'mvn clean package'
-                     } if (${Branch_Name})=='master'){
-                         sh 'mvn clean package -Dmaven.test.skip=true'
-                     }
+          steps{
+          sh 'mvn clean package'}
         }
         stage ('Execute Sonarqube report'){
             steps{
