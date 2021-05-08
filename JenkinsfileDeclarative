@@ -30,7 +30,7 @@ pipeline{
         {
         echo "my env var ${BRANCH_NAME}"},
         "Checkout code and job details":{
-                git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'}
+                git branch: '${params.branch}', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'}
            )
            }
         }
