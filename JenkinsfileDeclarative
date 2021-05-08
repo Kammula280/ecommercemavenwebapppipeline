@@ -7,7 +7,8 @@ pipeline{
         maven 'maven3.6.3'
     }
     parameters{
-        properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')])])
+    string (Name : 'version',defaultvalue: '1.0', description : '')
+    string (Name:'branch', choices: ['dev','master','test']),description: '')
     }
     
     options{
