@@ -56,6 +56,7 @@ pipeline{
             }
             failure{
                 mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
+                cleanWs
             }
         }
        
