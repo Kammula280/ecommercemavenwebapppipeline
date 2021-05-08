@@ -59,6 +59,10 @@ pipeline{
         }
     }
         post{
+        always{
+                mail bcc: '', body: 'Your Jenkins Build is always', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+            cleanWs()
+            }
             success{
                 mail bcc: '', body: 'Your Jenkins Build is Success', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
             cleanWs()
