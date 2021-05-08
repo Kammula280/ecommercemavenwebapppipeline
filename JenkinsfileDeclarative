@@ -39,7 +39,7 @@ pipeline{
         steps{
     when {
         expression{
-            params.branch == 'dev' || env.BRANCH_NAME=='master'
+            params.branch anyOf 'dev'
         }
             sh 'mvn clean package -DMaventestskip=true'
     
