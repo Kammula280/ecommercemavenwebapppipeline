@@ -12,14 +12,10 @@ pipeline{
         
         stage('Checkout code and job details'){
         steps{
-            
-
-            Checkoutcode:{
                 git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
             }
         }
-       
-        }
+     
         stage('Build and test'){
             steps{
                 sh 'mvn clean package'
@@ -28,6 +24,7 @@ pipeline{
         stage ('Execute Sonarqube report'){
             steps{
                 sh 'mvn sonar:sonar'
+            }
             }
         stage('upload artifact'){
             steps {
