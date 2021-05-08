@@ -2,6 +2,7 @@ pipeline{
     agent{
         label 'master'
     }
+    BRANCH_NAME =${params.branch}
     parameters{
     string (name : 'version',defaultValue: '1.0', description : '')
     choice (name:'branch', choices: ['dev','master','test'],description: '')
