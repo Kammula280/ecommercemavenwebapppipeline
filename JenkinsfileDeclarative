@@ -1,83 +1,73 @@
 pipeline{
+    agent{
+        label master
+    }
+    App_Version = ${params.Version}
+    Branch_Name = ${params.Environment}
+    tools{
+        maven maven3.6.3
+    }
+    properties([parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
+    
+    options{
+        timestamps()
+        timeout(time: 60, unit: 'SECONDS')
+        properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), parameters([string(defaultValue: 'dev', description: '', name: 'Environment', trim: false), choice(choices: ['1.0', '1.1', '1.2'], description: '', name: 'Version')]), pipelineTriggers([githubPush()])])
+    }
+    stages{
+        stage('Display environment name'){
+        steps{
+                echo "Building in ${Branch_Name}"
+        }
+        stage('Checkout code and job details'){
+            parallel(
 
-agent any
-
-tools
-{
-  maven 'maven3.6.3'
-
-}
-
-triggers{
- pollSCM('* * * * *')
-}
-
-options{
-    timestamps()
-    buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2'))
-}
-
- stages{
-   
-   stage('CheckoutCode')
-   {
-     steps{
-	 git branch: 'development', credentialsId: '8e348aa2-9531-4dbe-863d-1adb64897470', url: 'https://github.com/MithunTechnologiesDevOps/maven-web-application.git'
-	 }
-   }
-   
-   stage('Build')
-   {
-    steps{
-	  sh "mvn clean package"
-	 }
-   }
-   
-    stage('ExecuteSonarQubeReport')
-   {
-     steps{
-	  sh "mvn sonar:sonar"
-	 }
-   }
-   
-   stage('UploadArtifactintoNexus')
-   {
-     steps{
-	  sh "mvn deploy"
-	 }
-   }
-   
-  stage('DeployAppIntoTomcat')
- {
-   steps{
-  sshagent(['2b7b0c6a-5eff-4f4a-82c3-3630f91c70b5']) {
-  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.1.222.74:/opt/apache-tomcat-9.0.41/webapps/"
-  }
- }
- }
- 
-  
- 
- }
- 
- post{
- 
- 
- success{
- mail bcc: 'devopstrainingblr@gmail.com', body: '''BuildOver!....
-
- Regards,
- Mithun Technologies,
- 9980923226''', cc: 'devopstrainingblr@gmail.com', from: '', replyTo: '', subject: 'BuildOver!!', to: 'devopstrainingblr@gmail.com'
- }
- 
- failure{
- mail bcc: 'devopstrainingblr@gmail.com', body: '''BuildOver!....
-
- Regards,
- Mithun Technologies,
- 9980923226''', cc: 'devopstrainingblr@gmail.com', from: '', replyTo: '', subject: 'BuildOver!!', to: 'devopstrainingblr@gmail.com'
- }
- 
- }
+            Checkoutcode:{
+                git branch: '${params.Environment}', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
+            },
+            jobdetails:{
+                        echo "Jenkins Job Number ${env.BUILD_NUMBER}"
+                        echo "Jenkins Node Name ${env.NODE_NAME}"
+                        echo "Jenkins Home ${env.JENKINS_HOME}"
+                        echo "Jenkins URL ${env.JENKINS_URL}"
+                        echo "JOB Name ${env.JOB_NAME}"
+            }
+            )
+        stage('Build and test'){
+            script {
+                     if ("${params.Environment}")=='dev'){
+                         sh 'mvn clean package'
+                     } if ("${params.Environment}")=='master'){
+                         sh 'mvn clean package -Dmaven.test.skip=true'
+                     }
+        }
+        stage ('Execute Sonarqube report'){
+            steps{
+                sh 'mvn sonar:sonar'
+            }
+        stage('upload artifact'){
+            steps {
+                sh 'mvn deploy'
+            }
+        stage ('Deploy to APP server'){
+            steps{
+                sshagent(['d20ea64a-8685-4263-a0ac-28c646ec6f51']) {
+                    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@18.116.33.206:/opt/apache-tomcat-9.0.45/webapps"
+                    }
+            }
+        }
+        post{
+            success{
+                mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Success ', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+            }
+            failure{
+                mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
+                cleanWs
+            }
+        }
+        }
+        }
+        }
+        }
+    }
 }
