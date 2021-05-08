@@ -4,7 +4,7 @@ pipeline{
     }
     parameters{
     string (Name : 'version',defaultvalue: '1.0', description : '')
-    string (Name:'branch', choices: ['dev','master','test']),description: '')
+    string (Name:'branch', choices: (['dev','master','test']),description: '')
     }
  options{
          timestamps()
