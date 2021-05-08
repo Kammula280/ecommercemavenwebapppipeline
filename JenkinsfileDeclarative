@@ -23,13 +23,16 @@ pipeline{
     
    
     stages{
-        stage ('displayenvs'){
+        stage ('displayenvsand checkout'){
         steps{
-        echo "my env var ${BRANCH_NAME}"}}
-        stage('Checkout code and job details'){
-        steps{
-                git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'
-            }
+        parallel(
+        "displayenv":
+        {
+        echo "my env var ${BRANCH_NAME}"}},
+        "Checkout code and job details":{
+                git branch: 'dev', credentialsId: 'githubcred', url: 'https://github.com/Kammula280/ecommercemavenwebapppipeline.git'}
+           )
+           }
         }
      
         stage('Build and test'){
@@ -57,11 +60,11 @@ pipeline{
     }
         post{
             success{
-                mail bcc: '', body: 'echo "my env var ${BRANCH_NAME}"', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
+                mail bcc: '', body: 'Your Jenkins Build is Success', cc: '', from: '', replyTo: '', subject: 'Build is Success', to: 'kammularamgopal@gmail.com'
             cleanWs()
             }
             failure{
-                mail bcc: '', body: 'Your Jenkins Build ${env.BUILD_NUMBER} is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
+                mail bcc: '', body: 'Your Jenkins Build is Failed', cc: '', from: '', replyTo: '', subject: 'Build is Failed', to: 'kammularamgopal@gmail.com'
             cleanWs()
             }
         }
